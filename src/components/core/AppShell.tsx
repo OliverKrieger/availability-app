@@ -19,7 +19,7 @@ function classNames(...xs: Array<string | false | null | undefined>) {
 export function AppShell() {
     return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100">
-            <div className="mx-auto flex min-h-screen max-w-full">
+            <div className="mx-auto flex min-h-screen max-w-480">
                 {/* Sidebar */}
                 <aside className="w-72 border-r border-zinc-800 bg-zinc-950 px-4 py-6">
                     <div className="mb-6">
