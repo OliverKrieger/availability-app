@@ -1,0 +1,125 @@
+/* ---------------------------------------------------------
+   ARCANE THEME
+--------------------------------------------------------- */
+
+.theme-arcane {
+    /* Brand primary — purple scale */
+    --color-brand-50:  #f5f3ff;
+    --color-brand-100: #e0d7ff;
+    --color-brand-200: #c4b5fd;
+    --color-brand-300: #a78bfa;
+    --color-brand-400: #8b5cf6;
+    --color-brand-500: #7c3aed;
+    --color-brand-600: #6d28d9;
+    --color-brand-700: #5b21b6;
+    --color-brand-800: #4c1d95;
+    --color-brand-900: #3b1677;
+
+    /* Secondary — deeper complementary violets */
+    --color-secondary-100: #ede9fe;
+    --color-secondary-500: #7c3aed;
+    --color-secondary-900: #4c1d95;
+
+    /* Tertiary — mystical pink-purple accents */
+    --color-tertiary-100: #fdf4ff;
+    --color-tertiary-500: #d946ef;
+    --color-tertiary-900: #701a75;
+
+    /* Surfaces */
+    --color-surface-light: #faf7ff;
+    --color-surface-dark:  #0d0717;
+
+    /* Borders */
+    --color-border-subtle: #4b3a78;
+    --color-border-strong: #2b204b;
+
+    --text-page: #2d2247;
+}
+
+.theme-arcane.dark {
+    --text-page: #e6e0ff;
+}
+
+/* ---------------------------------------------------------
+   FROSTY-INFERNO THEME
+   Icy blues + fiery reds
+--------------------------------------------------------- */
+.theme-frosty-inferno {
+    /* Brand — frost blues */
+    --color-brand-50:  #dbeafe;
+    --color-brand-100: #bfdbfe;
+    --color-brand-200: #93c5fd;
+    --color-brand-300: #60a5fa;
+    --color-brand-400: #3b82f6;
+    --color-brand-500: #2563eb;
+    --color-brand-600: #1d4ed8;
+    --color-brand-700: #1e40af;
+    --color-brand-800: #1e3a8a;
+    --color-brand-900: #172554;
+
+    /* Secondary — inferno reds */
+    --color-secondary-100: #fee2e2;
+    --color-secondary-500: #dc2626;
+    --color-secondary-900: #7f1d1d;
+
+    /* Tertiary — volcanic orange accents */
+    --color-tertiary-100: #ffedd5;
+    --color-tertiary-500: #f97316;
+    --color-tertiary-900: #7c2d12;
+
+    /* Surfaces */
+    --color-surface-light: #f8fafc; /* cold white-blue */
+    --color-surface-dark:  #0d0d11; /* bluish-black */
+
+    /* Borders */
+    --color-border-subtle: #334155;
+    --color-border-strong: #1e293b;
+
+    --text-page: #0f172a; /* navy text */
+}
+
+.theme-frosty-inferno.dark {
+    --text-page: #e2e8f0; /* icy frost text */
+}
+
+/* ---------------------------------------------------------
+   BLACK & GOLD IMPERIAL THEME
+   Deep blacks + royal golds
+--------------------------------------------------------- */
+.theme-imperial {
+    /* Brand — gold */
+    --color-brand-50:  #fef3c7;
+    --color-brand-100: #fde68a;
+    --color-brand-200: #fcd34d;
+    --color-brand-300: #fbbf24;
+    --color-brand-400: #f59e0b;
+    --color-brand-500: #d97706;
+    --color-brand-600: #b45309;
+    --color-brand-700: #92400e;
+    --color-brand-800: #78350f;
+    --color-brand-900: #451a03;
+
+    /* Secondary — steel greys */
+    --color-secondary-100: #f3f4f6;
+    --color-secondary-500: #6b7280;
+    --color-secondary-900: #111827;
+
+    /* Tertiary — royal reds */
+    --color-tertiary-100: #fee2e2;
+    --color-tertiary-500: #b91c1c;
+    --color-tertiary-900: #450a0a;
+
+    /* Surfaces */
+    --color-surface-light: #1e1e21;
+    --color-surface-dark:  #0a0a0b;
+
+    /* Borders */
+    --color-border-subtle: #4b5563;
+    --color-border-strong: #374151;
+
+    --text-page: #fff8e6; /* gold undertone white */
+}
+
+.theme-imperial.dark {
+    --text-page: #fff8e6;
+}

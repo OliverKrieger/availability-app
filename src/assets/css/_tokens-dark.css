@@ -1,0 +1,12 @@
+/* ---------------------------------------------------------
+   DARK MODE
+--------------------------------------------------------- */
+:root {
+    --bg-page: var(--color-surface-light);
+    --text-page: var(--color-neutral-900);
+}
+
+.dark {
+    --bg-page: var(--color-surface-dark);
+    --text-page: var(--color-neutral-100);
+}

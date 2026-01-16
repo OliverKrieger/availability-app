@@ -1,0 +1,127 @@
+/* ---------------------------------------------------------
+   HEADINGS
+   Use brand + neutral as fallbacks, but rely on CSS vars
+--------------------------------------------------------- */
+@utility heading-1 {
+    @apply text-4xl font-extrabold tracking-tight font-display mb-6 mt-10 scroll-mt-24;
+    color: var(--color-brand-300);
+}
+
+@utility heading-2 {
+    @apply text-3xl font-bold tracking-tight font-display mt-10 mb-4 scroll-mt-24;
+    color: var(--color-brand-200);
+}
+
+@utility heading-3 {
+    @apply text-2xl font-semibold font-display mt-8 mb-3 scroll-mt-20;
+    color: var(--color-brand-100);
+}
+
+@utility heading-4 {
+    @apply text-xl font-semibold font-display mt-6 mb-2 scroll-mt-20;
+    color: var(--color-neutral-200);
+}
+
+@utility heading-5 {
+    @apply text-lg font-medium mt-4 mb-1 scroll-mt-16;
+    color: var(--color-neutral-300);
+}
+
+@utility heading-6 {
+    @apply text-base font-medium uppercase tracking-wide mt-3 mb-1 scroll-mt-16;
+    color: var(--color-neutral-400);
+}
+
+/* ---------------------------------------------------------
+   TABLES — FOLLOW PAGE THEME (LIGHT/DARK)
+--------------------------------------------------------- */
+
+/* Table wrapper */
+@utility table-base {
+    @apply min-w-full my-6 shadow-sm rounded-lg text-sm border;
+    background-color: var(--bg-page);
+    border-color: var(--color-secondary-900);
+}
+
+/* Header */
+@utility table-head {
+    background-color: color-mix(in sRGB, var(--bg-page) 85%, transparent);
+    color: var(--text-page);
+    border: 2px solid var(--color-secondary-500);
+}
+
+/* Row */
+@utility table-row {
+    @apply transition-colors;
+    border-bottom: 1px solid var(--color-secondary-900);
+}
+
+/* Cell */
+@utility table-cell {
+    @apply px-4 py-2;
+    color: var(--text-page);
+    border-left: 1px solid var(--color-secondary-900);
+}
+
+/* ---------------------------------------------------------
+   LISTS
+--------------------------------------------------------- */
+@utility list-ul {
+    @apply list-disc pl-6 space-y-1;
+    li{
+        &::marker {
+            color: var(--color-secondary-500);
+        }
+    }
+}
+
+@utility list-ol {
+    @apply list-decimal pl-6 space-y-1;
+    li{
+        &::marker {
+            color: var(--color-secondary-500);
+        }
+    }
+}
+
+/* ---------------------------------------------------------
+   CALLOUTS
+--------------------------------------------------------- */
+@utility callout-base {
+    @apply my-6 p-4 rounded-lg border-l-4 shadow-inner;
+}
+
+/* ---------------------------------------------------------
+   DIVIDER
+--------------------------------------------------------- */
+@utility fancy-divider {
+    @apply my-12 flex items-center justify-center;
+}
+
+/* ---------------------------------------------------------
+   SCROLLBAR STYLES
+--------------------------------------------------------- */
+
+::-webkit-scrollbar {
+    width: 6px;       /* Make it slim */
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-page);  /* Match your theme */
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-tertiary-500); /* Use your existing color vars */
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-tertiary-500);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-tertiary-500) var(--bg-page);
+}

@@ -1,0 +1,29 @@
+/* ---------------------------------------------------------
+   LAYOUT FIXES
+--------------------------------------------------------- */
+#root {
+    width: 100%;
+}
+
+/* article {
+    max-width: 800px;
+    margin: 0 auto;
+} */
+
+ul,
+ol {
+    margin: 15px 0;
+}
+
+a {
+    color: var(--color-brand-400);
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-brand-300);
+}
+
+p{
+    margin-bottom: 15px;
+}

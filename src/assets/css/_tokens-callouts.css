@@ -1,0 +1,63 @@
+/* ---------------------------------------------------------
+   CALLOUT COLOR TOKENS (BASE)
+--------------------------------------------------------- */
+
+:root {
+    /* Info */
+    --callout-info-border: var(--color-secondary-500);
+    --callout-info-bg: color-mix(in sRGB, var(--color-secondary-100) 10%, transparent);
+    --callout-info-title: var(--color-secondary-500);
+    --callout-info-text: var(--text-page);
+
+    /* Note */
+    --callout-note-border: var(--color-brand-300);
+    --callout-note-bg: color-mix(in sRGB, var(--color-brand-50) 10%, transparent);
+    --callout-note-title: var(--color-brand-400);
+    --callout-note-text: var(--text-page);
+
+    /* Tip */
+    --callout-tip-border: var(--color-secondary-500);
+    --callout-tip-bg: color-mix(in sRGB, var(--color-secondary-100) 12%, transparent);
+    --callout-tip-title: var(--color-secondary-500);
+    --callout-tip-text: var(--text-page);
+
+    /* Warning */
+    --callout-warning-border: #facc15;
+    --callout-warning-bg: rgba(234, 179, 8, 0.1);
+    --callout-warning-title: #fde68a;
+    --callout-warning-text: var(--text-page);
+
+    /* Danger */
+    --callout-danger-border: #f87171;
+    --callout-danger-bg: rgba(239, 68, 68, 0.12);
+    --callout-danger-title: #fca5a5;
+    --callout-danger-text: var(--text-page);
+
+    /* Quote */
+    --callout-quote-border: var(--color-border-subtle);
+    --callout-quote-bg: color-mix(in sRGB, var(--color-border-subtle) 8%, transparent);
+    --callout-quote-title: var(--color-border-subtle);
+    --callout-quote-text: var(--text-page);
+
+    /* Lore (uses tertiary palette) */
+    --callout-lore-border: var(--color-tertiary-500);
+    --callout-lore-bg: color-mix(in sRGB, var(--color-tertiary-100) 15%, transparent);
+    --callout-lore-title: var(--color-tertiary-500);
+    --callout-lore-text: var(--text-page);
+
+    /* Region (secondary/brand mixture) */
+    --callout-region-border: var(--color-brand-400);
+    --callout-region-bg: color-mix(in sRGB, var(--color-brand-50) 18%, transparent);
+    --callout-region-title: var(--color-brand-300);
+    --callout-region-text: var(--text-page);
+}
+
+.dark {
+    /* Enhance backgrounds in dark mode */
+    --callout-info-bg: color-mix(in sRGB, var(--color-secondary-100) 18%, transparent);
+    --callout-note-bg: color-mix(in sRGB, var(--color-brand-50) 18%, transparent);
+    --callout-tip-bg: color-mix(in sRGB, var(--color-secondary-100) 20%, transparent);
+    --callout-warning-bg: rgba(234, 179, 8, 0.2);
+    --callout-danger-bg: rgba(239, 68, 68, 0.22);
+    --callout-quote-bg: color-mix(in sRGB, var(--color-border-subtle) 20%, transparent);
+}
