@@ -1,22 +1,43 @@
+import { useState } from "react";
+import { MonthPicker } from "../components/calendar/MonthPicker";
+import { MonthGrid } from "../components/calendar/MonthGrid";
+
 export function EntryPage() {
+    const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
     return (
-        <div className="space-y-3">
+        <div className="space-y-4">
             <div>
                 <h1 className="text-xl font-semibold tracking-tight">My Availability</h1>
                 <p className="mt-1 text-sm text-zinc-400">
-                    Choose a month, then click a day to mark your free times.
+                    Default is busy. Click a day to mark free times.
                 </p>
             </div>
 
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4">
-                <div className="text-sm text-zinc-200">Coming next:</div>
-                <ul className="mt-2 list-disc pl-5 text-sm text-zinc-400">
-                    <li>Month picker</li>
-                    <li>Month grid</li>
-                    <li>Day editor (all-day, ranges, evenings after 17:30)</li>
-                    <li>Export JSON</li>
-                </ul>
-            </div>
+            <MonthPicker
+                month={month}
+                onChangeMonth={(m) => {
+                    setMonth(new Date(m.getFullYear(), m.getMonth(), 1));
+                    setSelectedDate(null);
+                }}
+                onJumpToToday={() => {
+                    const t = new Date();
+                    setMonth(new Date(t.getFullYear(), t.getMonth(), 1));
+                    setSelectedDate(t);
+                }}
+            />
+
+            <MonthGrid
+                month={month}
+                selectedDate={selectedDate}
+                onSelectDate={(d) => setSelectedDate(d)}
+                // For now, just a placeholder to prove it works
+                getDayBottomText={(d) => {
+                    if (selectedDate && d.toDateString() === selectedDate.toDateString()) return "Selected";
+                    return undefined;
+                }}
+            />
         </div>
     );
 }

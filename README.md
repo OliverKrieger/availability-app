@@ -52,7 +52,7 @@ export default tseslint.config({
 
 
 TODO:
-AppShell + two tabs (Entry / Aggregate)
+AppShell + two tabs (Entry / Aggregate) + 
 MonthPicker + MonthGrid + DayCell (no editing yet)
 DayEditorModal + TimeRangeEditor (store in memory)
 availabilityEngine + timeMath (make the modal actually meaningful)
