@@ -62,3 +62,4 @@ allow importing multiple months and add a MonthPicker in Aggregate
 show “best x-hour window” (set for 2 hrs, 4 hrs, etc where most are available) automatically (computed from buckets)
 show per-person bars (not just aggregate counts)
 add "tentetive" option to signal "maybe free"
+alerts and confirm modals

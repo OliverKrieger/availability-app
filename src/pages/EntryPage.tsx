@@ -10,6 +10,7 @@ import { ExportAvailabilityButton } from "../components/availability/ExportAvail
 import { ImportAvailabilityButton } from "../components/availability/ImportAvailabilityButton";
 import type { AvailabilityExportV1 } from "../features/export/model/types";
 import { entryTint } from "../utility/lib/availabilityColours";
+import { useUIStore } from "../stores/state/uiStore";
 
 function pad2(n: number) {
     return n < 10 ? `0${n}` : String(n);
@@ -40,6 +41,9 @@ export function EntryPage() {
     const clearMonth = useAvailabilityStore((s) => s.clearMonth);
 
     const [banner, setBanner] = useState<string | null>(null);
+
+    const openConfirm = useUIStore((s) => s.openConfirm);
+    const pushAlert = useUIStore((s) => s.pushAlert);
 
     const handleImport = (data: AvailabilityExportV1) => {
         setBanner(null);
@@ -91,8 +95,33 @@ export function EntryPage() {
 
                 <div className="flex flex-wrap gap-2">
                     <ImportAvailabilityButton
-                        onImport={handleImport}
-                        onError={(m) => setBanner(m)}
+                        onImport={(data) => {
+                            try {
+                                handleImport(data);
+                                pushAlert({
+                                    type: "success",
+                                    title: "Imported availability",
+                                    message:
+                                        data.month === "all"
+                                            ? `Restored full backup (${Object.keys(data.overridesByDay ?? {}).length} days).`
+                                            : `Imported ${data.month} (${Object.keys(data.overridesByDay ?? {}).length} days).`,
+                                    ttlMs: 3500,
+                                });
+                            } catch (e) {
+                                pushAlert({
+                                    type: "error",
+                                    title: "Import failed",
+                                    message: e instanceof Error ? e.message : "Failed to import availability.",
+                                });
+                            }
+                        }}
+                        onError={(msg) =>
+                            pushAlert({
+                                type: "error",
+                                title: "Import failed",
+                                message: msg,
+                            })
+                        }
                     />
 
                     <ExportAvailabilityButton
@@ -131,9 +160,22 @@ export function EntryPage() {
                     className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 hover:bg-zinc-900"
                     onClick={() => {
                         const mk = monthKey(month);
-                        if (!confirm(`Clear availability for ${mk}?`)) return;
-                        clearMonth(mk);
-                        setBanner(`Cleared ${mk}.`);
+                        openConfirm({
+                            tone: "warning",
+                            title: "Clear month availability?",
+                            message: `This will remove all overrides for ${mk}.`,
+                            confirmText: "Clear month",
+                            cancelText: "Cancel",
+                            onConfirm: () => {
+                                clearMonth(mk);
+                                pushAlert({
+                                    type: "success",
+                                    title: "Month cleared",
+                                    message: `Cleared overrides for ${mk}.`,
+                                    ttlMs: 3000,
+                                });
+                            },
+                        });
                     }}
                 >
                     Clear month
@@ -143,9 +185,22 @@ export function EntryPage() {
                     type="button"
                     className="cursor-pointer rounded-xl border border-red-900/40 bg-red-950/30 px-3 py-2 text-sm text-red-100 hover:bg-red-950/40"
                     onClick={() => {
-                        if (!confirm("Clear ALL availability? This cannot be undone.")) return;
-                        clearAll();
-                        setBanner("Cleared all availability.");
+                        openConfirm({
+                            tone: "error",
+                            title: "Clear all availability?",
+                            message: "This will remove ALL stored overrides across all months. This cannot be undone.",
+                            confirmText: "Clear all",
+                            cancelText: "Cancel",
+                            onConfirm: () => {
+                                clearAll();
+                                pushAlert({
+                                    type: "success",
+                                    title: "All cleared",
+                                    message: "All availability overrides have been removed.",
+                                    ttlMs: 3000,
+                                });
+                            },
+                        });
                     }}
                 >
                     Clear all

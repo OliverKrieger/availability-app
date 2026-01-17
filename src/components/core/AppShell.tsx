@@ -1,4 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { AlertStack } from "../ui/AlertStack";
+import { ConfirmModal } from "../ui/ConfirmModal";
 
 type NavItem = {
     to: string;
@@ -59,9 +61,11 @@ export function AppShell() {
                 {/* Main */}
                 <main className="flex-1 px-6 py-6">
                     <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 shadow-sm">
+                        <AlertStack />
                         <Outlet />
                     </div>
                 </main>
+                <ConfirmModal />
             </div>
         </div>
     );
