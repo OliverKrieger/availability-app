@@ -10,7 +10,21 @@ export function aggregateTint(ratio: number): Tint {
     return "some";                     // yellow
 }
 
-export function tintClass(tint: Tint) {
+export function tintClass(tint: Tint, opts?: { dim?: boolean }) {
+
+    // Dim = darker + less saturated, and also slightly lower contrast borders
+    if (opts?.dim) {
+        switch (tint) {
+            case "busy":
+                return "bg-red-950/35 border-red-950/40 hover:bg-red-950/40";
+            case "some":
+                return "bg-yellow-950/35 border-yellow-950/40 hover:bg-yellow-950/35";
+            case "free":
+                return "bg-green-950/35 border-green-950/40 hover:bg-green-950/35";
+        }
+    }
+
+    // Normal (in-month)
     // Dark-mode friendly translucent overlays
     switch (tint) {
         case "busy":

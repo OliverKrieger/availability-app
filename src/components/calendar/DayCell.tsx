@@ -35,10 +35,12 @@ export function DayCell({
                 "group relative flex h-24 w-full flex-col rounded-xl border p-2 text-left transition",
                 "focus:outline-none focus:ring-2 focus:ring-zinc-600",
                 inMonth ? "text-zinc-100" : "text-zinc-600",
-                // Base background if no tint
-                !tint ? (inMonth ? "border-zinc-800 bg-zinc-900/20 hover:bg-zinc-900/40" : "border-zinc-900 bg-zinc-950/40 hover:bg-zinc-950/60") : "",
-                // Tint overlay
-                tint ? tintClass(tint) : "",
+                !tint
+                    ? inMonth
+                        ? "border-zinc-800 bg-zinc-900/20 hover:bg-zinc-900/40"
+                        : "border-zinc-900 bg-zinc-950/40 hover:bg-zinc-950/60"
+                    : "",
+                tint ? tintClass(tint, { dim: !inMonth }) : "",
                 isSelected ? "ring-2 ring-zinc-300" : "",
             ].join(" ")}
             aria-label={ymd(date)}
