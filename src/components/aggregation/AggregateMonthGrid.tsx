@@ -1,5 +1,6 @@
 import { buildMonthGrid, isSameDay, ymd } from "../../utility/lib/date";
 import type { DayAggregate } from "../../features/services/aggregate";
+import { aggregateTint, tintClass, badgeClass } from "../../utility/lib/availabilityColours";
 
 type Props = {
     month: Date;
@@ -10,14 +11,6 @@ type Props = {
 };
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-function intensityClass(ratio: number) {
-    // 0..1
-    if (ratio <= 0) return "bg-zinc-950/40";
-    if (ratio <= 0.33) return "bg-zinc-900/50";
-    if (ratio <= 0.66) return "bg-zinc-800/70";
-    return "bg-zinc-700/80";
-}
 
 export function AggregateMonthGrid({
     month,
@@ -43,6 +36,7 @@ export function AggregateMonthGrid({
                     const agg = dayAggByKey[key];
                     const freeCount = agg?.freeCount ?? 0;
                     const ratio = totalPeople > 0 ? freeCount / totalPeople : 0;
+                    const tint = aggregateTint(ratio);
                     const isSelected = !!selectedDate && isSameDay(d, selectedDate);
 
                     return (
@@ -53,15 +47,15 @@ export function AggregateMonthGrid({
                             className={[
                                 "relative flex h-24 w-full flex-col rounded-xl border p-2 text-left transition",
                                 "focus:outline-none focus:ring-2 focus:ring-zinc-600",
-                                inMonth ? "border-zinc-800" : "border-zinc-900 text-zinc-600",
-                                intensityClass(ratio),
-                                isSelected ? "ring-2 ring-zinc-300" : "hover:bg-zinc-900/60",
+                                inMonth ? "" : "text-zinc-600",
+                                tintClass(tint),
+                                isSelected ? "ring-2 ring-zinc-300" : "",
                             ].join(" ")}
                         >
                             <div className="flex items-start justify-between">
                                 <div className="text-xs text-zinc-200">{d.getDate()}</div>
                                 {inMonth && totalPeople > 0 ? (
-                                    <div className="rounded-lg border border-zinc-800 bg-zinc-950/40 px-2 py-1 text-[10px] text-zinc-200">
+                                    <div className={["rounded-lg border px-2 py-1 text-[10px]", badgeClass(tint)].join(" ")}>
                                         {freeCount}/{totalPeople}
                                     </div>
                                 ) : null}

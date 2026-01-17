@@ -7,6 +7,7 @@ import { minsToHHmm } from "../utility/lib/time";
 import { useLocalSettings } from "../components/core/LocalSettingsProvider";
 import { useAvailabilityStore } from "../stores/availability/availabilityStore";
 import { ExportAvailabilityButton } from "../components/availability/ExportAvailabilityButton";
+import { entryTint } from "../utility/lib/availabilityColours";
 
 export function EntryPage() {
     const { settings } = useLocalSettings();
@@ -90,6 +91,12 @@ export function EntryPage() {
                     if (ov.kind === "eveningFree") return `Free after ${minsToHHmm(eveningStartMins)}`;
                     if (ov.kind === "ranges") return "Custom";
                     return undefined;
+                }}
+                getDayTint={(d) => {
+                    const k = ymd(d);
+                    const ov = overrides[k];
+                    const hasFree = !!ov && ov.kind !== "none";
+                    return entryTint(hasFree); // busy -> red, free -> green
                 }}
             />
 

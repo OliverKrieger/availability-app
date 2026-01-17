@@ -1,16 +1,16 @@
 import { buildMonthGrid, isSameDay } from "../../utility/lib/date";
 import { DayCell } from "./DayCell";
+import type { Tint } from "../../utility/lib/availabilityColours";
 
 type MonthGridProps = {
     month: Date;
     selectedDate?: Date | null;
     onSelectDate?: (date: Date) => void;
 
-    /**
-     * Optional hook for later: render per-day status text
-     */
     getDayBottomText?: (date: Date) => string | undefined;
     getDayBadge?: (date: Date) => string | undefined;
+
+    getDayTint?: (date: Date) => Tint | undefined;
 };
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -21,6 +21,7 @@ export function MonthGrid({
     onSelectDate,
     getDayBottomText,
     getDayBadge,
+    getDayTint,
 }: MonthGridProps) {
     const days = buildMonthGrid(month);
 
@@ -46,6 +47,7 @@ export function MonthGrid({
                             onSelect={onSelectDate}
                             topRightBadge={getDayBadge?.(d)}
                             bottomText={getDayBottomText?.(d)}
+                            tint={getDayTint?.(d)}
                         />
                     );
                 })}
