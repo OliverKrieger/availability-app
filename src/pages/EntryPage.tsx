@@ -22,7 +22,6 @@ function monthKey(d: Date) {
 export function EntryPage() {
     const { settings, updateSettings } = useLocalSettings();
     const eveningStartMins = settings.prefs.eveningStartMins;
-    const userId = settings.user.id;
     const fullName = settings.user.fullName;
 
     const [month, setMonth] = useState(() => {
@@ -83,7 +82,7 @@ export function EntryPage() {
         <div className="space-y-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                    <h1 className="text-xl font-semibold tracking-tight">My Availability</h1>
+                    <h1 className="text-xl font-semibold tracking-tight">{fullName} Availability</h1>
                     <p className="mt-1 text-sm text-zinc-400">
                         Default is busy. Click a day to mark: all day, evening (after{" "}
                         {minsToHHmm(eveningStartMins)}), or custom ranges.
