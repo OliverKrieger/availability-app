@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ignore bundle output
+Availability.exe
+bundles/

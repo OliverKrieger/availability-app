@@ -7,10 +7,13 @@
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"serve:dist": "node server.js",
+		"bundle": "node scripts/build-bundles.js"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.18",
+		"adm-zip": "^0.5.16",
 		"express": "^5.2.1",
 		"get-port": "^7.1.0",
 		"open": "^11.0.0",
