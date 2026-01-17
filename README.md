@@ -53,10 +53,14 @@ export default tseslint.config({
 
 TODO:
 AppShell + two tabs (Entry / Aggregate) + 
-MonthPicker + MonthGrid + DayCell (no editing yet)
-DayEditorModal + TimeRangeEditor (store in memory)
+MonthPicker + MonthGrid + DayCell (no editing yet) +
+DayEditorModal + TimeRangeEditor (store in memory) 
 availabilityEngine + timeMath (make the modal actually meaningful)
 ExportButton (download/save JSON)
 ImportPanel (load JSON)
 AvailabilityHeatmap + DayTimeline (basic combined view)
 SettingsDialog (evening start time + workdays)
+
+Move settings into SettingsPage + persist to JSON
+Add Export button that writes { settings snapshot?, month, overrides }
+Build an “availability resolver” function (turn overrides into actual ranges for aggregation)

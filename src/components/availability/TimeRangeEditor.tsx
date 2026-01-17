@@ -22,9 +22,19 @@ export function TimeRangeEditor({ ranges, onChange }: Props) {
 	};
 
 	const addRange = () => {
-		// default: 18:00-20:00
-		const next = [...normalized, { startMins: 18 * 60, endMins: 20 * 60 }];
-		onChange(next);
+		// If there are existing ranges, add a new one after the last range ends.
+		const last = normalized[normalized.length - 1];
+
+		const start = last ? Math.min(last.endMins + 30, 23 * 60) : 18 * 60;
+		const end = Math.min(start + 120, 24 * 60);
+
+		// If we're too close to end-of-day, fall back to an earlier default
+		const safe =
+			end > start
+				? { startMins: start, endMins: end }
+				: { startMins: 16 * 60, endMins: 18 * 60 };
+
+		onChange([...normalized, safe]);
 	};
 
 	return (
