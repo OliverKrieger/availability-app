@@ -62,7 +62,7 @@ export function AggregateMonthGrid({
                             </div>
 
                             <div className="mt-auto text-xs text-zinc-400">
-                                {inMonth && totalPeople > 0 ? "free" : ""}
+                                {inMonth && freeCount > 0 ? freeCount < totalPeople ? "tentative" : "free" : inMonth ? "busy" : ""}
                             </div>
                         </button>
                     );
