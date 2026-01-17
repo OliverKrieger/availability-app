@@ -80,7 +80,7 @@ export function DayEditorModal({
                 <button
                     type="button"
                     onClick={onClose}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
+                    className="cursor-pointerrounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
                 >
                     Close
                 </button>
@@ -135,7 +135,7 @@ export function DayEditorModal({
                 <button
                     type="button"
                     onClick={() => setDraft(value)}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
+                    className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
                 >
                     Reset
                 </button>
@@ -144,7 +144,7 @@ export function DayEditorModal({
                     type="button"
                     disabled={!canSave}
                     onClick={() => onSave(draft)}
-                    className="rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-white disabled:opacity-50"
+                    className="cursor-pointer rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-white disabled:opacity-50"
                 >
                     Save
                 </button>
@@ -167,7 +167,7 @@ function ModeButton({
             type="button"
             onClick={onClick}
             className={[
-                "w-full rounded-xl border px-3 py-3 text-left text-sm transition",
+                "cursor-pointer w-full rounded-xl border px-3 py-3 text-left text-sm transition",
                 active ? "border-zinc-600 bg-zinc-900" : "border-zinc-800 bg-zinc-950 hover:bg-zinc-900/40",
             ].join(" ")}
         >

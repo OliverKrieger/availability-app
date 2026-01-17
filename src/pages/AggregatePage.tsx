@@ -123,7 +123,7 @@ export function AggregatePage() {
                         type="checkbox"
                         checked={eveningsOnly}
                         onChange={(e) => setEveningsOnly(e.target.checked)}
-                        className="h-4 w-4 accent-zinc-200"
+                        className="h-4 w-4 accent-zinc-200 cursor-pointer"
                     />
                     Evenings only
                 </label>

@@ -44,7 +44,7 @@ export function TimeRangeEditor({ ranges, onChange }: Props) {
 				<button
 					type="button"
 					onClick={addRange}
-					className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
+					className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
 				>
 					+ Add range
 				</button>
@@ -63,7 +63,7 @@ export function TimeRangeEditor({ ranges, onChange }: Props) {
 						>
 							<label className="text-xs text-zinc-400">Start</label>
 							<input
-								className="w-28 rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-sm text-zinc-200"
+								className="cursor-pointer rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-sm text-zinc-200"
 								type="time"
 								value={minsToHHmm(r.startMins)}
 								onChange={(e) => {
@@ -75,7 +75,7 @@ export function TimeRangeEditor({ ranges, onChange }: Props) {
 
 							<label className="ml-2 text-xs text-zinc-400">End</label>
 							<input
-								className="w-28 rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-sm text-zinc-200"
+								className="cursor-pointer rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-sm text-zinc-200"
 								type="time"
 								value={minsToHHmm(r.endMins)}
 								onChange={(e) => {
@@ -89,7 +89,7 @@ export function TimeRangeEditor({ ranges, onChange }: Props) {
 								<button
 									type="button"
 									onClick={() => removeAt(idx)}
-									className="rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-900"
+									className="cursor-pointer rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-900"
 								>
 									Remove
 								</button>

@@ -32,7 +32,7 @@ export function DayCell({
             type="button"
             onClick={() => onSelect?.(date)}
             className={[
-                "group relative flex h-24 w-full flex-col rounded-xl border p-2 text-left transition",
+                "group relative flex h-24 w-full flex-col rounded-xl border p-2 text-left transition cursor-pointer",
                 "focus:outline-none focus:ring-2 focus:ring-zinc-600",
                 inMonth ? "text-zinc-100" : "text-zinc-600",
                 !tint

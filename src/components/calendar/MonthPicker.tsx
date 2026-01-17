@@ -37,7 +37,7 @@ export function MonthPicker({ month, onChangeMonth, onJumpToToday }: MonthPicker
                     <button
                         type="button"
                         onClick={onJumpToToday}
-                        className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm text-zinc-200 hover:bg-zinc-900"
+                        className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm text-zinc-200 hover:bg-zinc-900 cursor-pointer"
                     >
                         Today
                     </button>
