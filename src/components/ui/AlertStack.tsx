@@ -20,7 +20,7 @@ export function AlertStack() {
     if (alerts.length === 0) return null;
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-2 fixed top-4 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-4">
             {alerts.map((a) => (
                 <div
                     key={a.id}

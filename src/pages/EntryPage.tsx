@@ -40,14 +40,10 @@ export function EntryPage() {
     const clearAll = useAvailabilityStore((s) => s.clearAll);
     const clearMonth = useAvailabilityStore((s) => s.clearMonth);
 
-    const [banner, setBanner] = useState<string | null>(null);
-
     const openConfirm = useUIStore((s) => s.openConfirm);
     const pushAlert = useUIStore((s) => s.pushAlert);
 
     const handleImport = (data: AvailabilityExportV1) => {
-        setBanner(null);
-
         // Restore settings bits (optional but convenient)
         updateSettings((curr) => ({
             ...curr,
@@ -59,7 +55,6 @@ export function EntryPage() {
         if (data.month === "all") {
             clearAll();
             setOverridesBulk(data.overridesByDay as Record<string, DayAvailabilityOverride>);
-            setBanner(`Imported full backup (${Object.keys(data.overridesByDay).length} overrides).`);
             return;
         }
 
@@ -72,7 +67,6 @@ export function EntryPage() {
         }
         setOverridesBulk(filtered);
         setMonth(new Date(Number(data.month.slice(0, 4)), Number(data.month.slice(5, 7)) - 1, 1));
-        setBanner(`Imported ${data.month} (${Object.keys(filtered).length} overrides).`);
     };
 
     const selectedKey = selectedDate ? ymd(selectedDate) : null;
@@ -133,12 +127,6 @@ export function EntryPage() {
                     />
                 </div>
             </div>
-
-            {banner ? (
-                <div className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-3 text-sm text-zinc-300">
-                    {banner}
-                </div>
-            ) : null}
 
             <MonthPicker
                 month={month}
