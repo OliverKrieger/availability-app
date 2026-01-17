@@ -5,8 +5,7 @@ import { ymd } from "../utility/lib/date";
 import { DayAvailabilityOverride, DayEditorModal } from "../components/availability/DayEditorModal";
 import { minsToHHmm } from "../utility/lib/time";
 import { useLocalSettings } from "../components/core/LocalSettingsProvider";
-
-type OverridesByDay = Record<string, DayAvailabilityOverride>;
+import { useAvailabilityStore } from "../stores/availability/availabilityStore";
 
 export function EntryPage() {
     const { settings } = useLocalSettings();
@@ -20,14 +19,16 @@ export function EntryPage() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [isEditorOpen, setIsEditorOpen] = useState(false);
 
-    const [overrides, setOverrides] = useState<OverridesByDay>({});
+    const overrides = useAvailabilityStore((s) => s.overrides);
+    const getOverride = useAvailabilityStore((s) => s.getOverride);
+    const setOverride = useAvailabilityStore((s) => s.setOverride);
 
     const selectedKey = selectedDate ? ymd(selectedDate) : null;
 
     const selectedOverride: DayAvailabilityOverride = useMemo(() => {
         if (!selectedKey) return { kind: "none" };
-        return overrides[selectedKey] ?? { kind: "none" };
-    }, [overrides, selectedKey]);
+        return getOverride(selectedKey);
+    }, [getOverride, selectedKey]);
 
     return (
         <div className="space-y-4">
@@ -87,13 +88,7 @@ export function EntryPage() {
                     value={selectedOverride}
                     onClose={() => setIsEditorOpen(false)}
                     onSave={(next) => {
-                        const k = ymd(selectedDate);
-                        setOverrides((prev) => {
-                            const copy = { ...prev };
-                            if (next.kind === "none") delete copy[k];
-                            else copy[k] = next;
-                            return copy;
-                        });
+                        setOverride(ymd(selectedDate), next);
                         setIsEditorOpen(false);
                     }}
                 />
