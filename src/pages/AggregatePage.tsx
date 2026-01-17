@@ -184,14 +184,17 @@ export function AggregatePage() {
                     onToggleIncluded={toggleIncluded}
                     onRemove={removeUser}
                 />
-
-                <AggregateMonthGrid
-                    month={monthDate}
-                    totalPeople={activeImports.length}
-                    dayAggByKey={agg.byDay}
-                    selectedDate={selectedDate}
-                    onSelectDate={(d) => setSelectedDate(d)}
-                />
+                {activeImports.length > 0 && 
+                    (
+                        <AggregateMonthGrid
+                            month={monthDate}
+                            totalPeople={activeImports.length}
+                            dayAggByKey={agg.byDay}
+                            selectedDate={selectedDate}
+                            onSelectDate={(d) => setSelectedDate(d)}
+                        />
+                    )
+                }
             </div>
 
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-3">
