@@ -61,3 +61,18 @@ export function buildMonthGrid(month: Date): Date[] {
     }
     return days;
 }
+
+// all actual calendar days in the month (1..last), not the padded grid
+export function daysInMonthGrid(month: Date): Date[] {
+  const y = month.getFullYear();
+  const m = month.getMonth();
+  const last = new Date(y, m + 1, 0).getDate();
+
+  const days: Date[] = [];
+  for (let d = 1; d <= last; d++) days.push(new Date(y, m, d));
+  return days;
+}
+
+export function weekdayName(d: Date) {
+  return d.toLocaleDateString(undefined, { weekday: "long" });
+}

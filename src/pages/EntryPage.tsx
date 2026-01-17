@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { MonthPicker } from "../components/calendar/MonthPicker";
 import { MonthGrid } from "../components/calendar/MonthGrid";
-import { ymd } from "../utility/lib/date";
+import { ymd, daysInMonthGrid } from "../utility/lib/date";
 import { DayAvailabilityOverride, DayEditorModal } from "../components/availability/DayEditorModal";
 import { minsToHHmm } from "../utility/lib/time";
 import { useLocalSettings } from "../components/core/LocalSettingsProvider";
@@ -26,6 +26,7 @@ export function EntryPage() {
     const overrides = useAvailabilityStore((s) => s.overrides);
     const getOverride = useAvailabilityStore((s) => s.getOverride);
     const setOverride = useAvailabilityStore((s) => s.setOverride);
+    const setOverridesBulk = useAvailabilityStore((s) => s.setOverridesBulk);
 
     const selectedKey = selectedDate ? ymd(selectedDate) : null;
 
@@ -104,11 +105,22 @@ export function EntryPage() {
                 <DayEditorModal
                     isOpen={isEditorOpen}
                     date={selectedDate}
+                    viewMonth={month}
                     eveningStartMins={eveningStartMins}
                     value={selectedOverride}
                     onClose={() => setIsEditorOpen(false)}
                     onSave={(next) => {
                         setOverride(ymd(selectedDate), next);
+                        setIsEditorOpen(false);
+                    }}
+                    onApplyToWeekdayInMonth={(weekday, next) => {
+                        // apply to all matching weekday days in the currently viewed month
+                        const updates: Record<string, DayAvailabilityOverride> = {};
+                        for (const d of daysInMonthGrid(month)) {
+                            if (d.getDay() !== weekday) continue;
+                            updates[ymd(d)] = next;
+                        }
+                        setOverridesBulk(updates);
                         setIsEditorOpen(false);
                     }}
                 />

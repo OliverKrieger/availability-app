@@ -11,10 +11,13 @@ export type DayAvailabilityOverride =
 type Props = {
     isOpen: boolean;
     date: Date;
+    viewMonth: Date;
     eveningStartMins: number;
     value: DayAvailabilityOverride;
     onClose: () => void;
     onSave: (next: DayAvailabilityOverride) => void;
+
+    onApplyToWeekdayInMonth: (weekday: number, next: DayAvailabilityOverride) => void;
 };
 
 function formatDateLong(d: Date) {
@@ -40,12 +43,16 @@ function ModalFrame({ children }: { children: ReactNode }) {
 export function DayEditorModal({
     isOpen,
     date,
+    viewMonth,
     eveningStartMins,
     value,
     onClose,
     onSave,
+    onApplyToWeekdayInMonth,
 }: Props) {
     const [draft, setDraft] = useState<DayAvailabilityOverride>(value);
+    const weekday = date.getDay();
+    const weekdayLabel = date.toLocaleDateString(undefined, { weekday: "long" });
 
     // reset draft when opening/changing date/value
     useMemo(() => {
@@ -132,6 +139,16 @@ export function DayEditorModal({
             </div>
 
             <div className="mt-5 flex items-center justify-end gap-2">
+                <button
+                    type="button"
+                    disabled={draft.kind === "none"}
+                    onClick={() => onApplyToWeekdayInMonth(weekday, draft)}
+                    className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900 disabled:opacity-50"
+                    title={draft.kind === "none" ? "Set an availability first." : ""}
+                >
+                    Apply to all {weekdayLabel}s ({ viewMonth.toLocaleDateString(undefined, { month: "long" }) })
+                </button>
+
                 <button
                     type="button"
                     onClick={() => setDraft(value)}
