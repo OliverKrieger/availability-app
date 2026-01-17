@@ -18,6 +18,26 @@ export function hhmmToMins(hhmm: string): number | null {
     return hh * 60 + mm;
 }
 
+export function hhmmToMinsStrict(text: string): number | null {
+    const s = text.trim();
+
+    // Require full HH:MM
+    if (!/^\d{2}:\d{2}$/.test(s)) return null;
+
+    const [hhStr, mmStr] = s.split(":");
+    const hh = Number(hhStr);
+    const mm = Number(mmStr);
+
+    if (!Number.isInteger(hh) || !Number.isInteger(mm)) return null;
+    if (mm < 0 || mm > 59) return null;
+
+    // Allow 24:00 only (end of day)
+    if (hh === 24 && mm === 0) return 24 * 60;
+    if (hh < 0 || hh > 23) return null;
+
+    return hh * 60 + mm;
+}
+
 export function normalizeRanges(ranges: { startMins: number; endMins: number }[]) {
     // remove invalid, clamp, sort, merge overlaps
     const cleaned = ranges

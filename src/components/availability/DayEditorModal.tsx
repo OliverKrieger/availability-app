@@ -1,5 +1,5 @@
 import { ReactNode, useMemo, useState } from "react";
-import { minsToHHmm, normalizeRanges } from "../../utility/lib/time";
+import { minsToHHmm } from "../../utility/lib/time";
 import { TimeRange, TimeRangeEditor } from "./TimeRangeEditor";
 
 export type DayAvailabilityOverride =
@@ -124,9 +124,7 @@ export function DayEditorModal({
                     {draft.kind === "ranges" ? (
                         <TimeRangeEditor
                             ranges={draft.ranges}
-                            onChange={(nextRanges) =>
-                                setDraft({ kind: "ranges", ranges: normalizeRanges(nextRanges) })
-                            }
+                            onChange={(nextRanges) => setDraft({ kind: "ranges", ranges: nextRanges })}
                         />
                     ) : (
                         <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 text-sm text-zinc-400">
@@ -146,7 +144,7 @@ export function DayEditorModal({
                     className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900 disabled:opacity-50"
                     title={draft.kind === "none" ? "Set an availability first." : ""}
                 >
-                    Apply to all {weekdayLabel}s ({ viewMonth.toLocaleDateString(undefined, { month: "long" }) })
+                    Apply to all {weekdayLabel}s ({viewMonth.toLocaleDateString(undefined, { month: "long" })})
                 </button>
 
                 <button
