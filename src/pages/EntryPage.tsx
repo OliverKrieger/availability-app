@@ -7,10 +7,20 @@ import { minsToHHmm } from "../utility/lib/time";
 import { useLocalSettings } from "../components/core/LocalSettingsProvider";
 import { useAvailabilityStore } from "../stores/availability/availabilityStore";
 import { ExportAvailabilityButton } from "../components/availability/ExportAvailabilityButton";
+import { ImportAvailabilityButton } from "../components/availability/ImportAvailabilityButton";
+import type { AvailabilityExportV1 } from "../features/export/model/types";
 import { entryTint } from "../utility/lib/availabilityColours";
 
+function pad2(n: number) {
+    return n < 10 ? `0${n}` : String(n);
+}
+function monthKey(d: Date) {
+    return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`;
+}
+
+
 export function EntryPage() {
-    const { settings } = useLocalSettings();
+    const { settings, updateSettings } = useLocalSettings();
     const eveningStartMins = settings.prefs.eveningStartMins;
     const userId = settings.user.id;
     const fullName = settings.user.fullName;
@@ -27,6 +37,40 @@ export function EntryPage() {
     const getOverride = useAvailabilityStore((s) => s.getOverride);
     const setOverride = useAvailabilityStore((s) => s.setOverride);
     const setOverridesBulk = useAvailabilityStore((s) => s.setOverridesBulk);
+    const clearAll = useAvailabilityStore((s) => s.clearAll);
+    const clearMonth = useAvailabilityStore((s) => s.clearMonth);
+
+    const [banner, setBanner] = useState<string | null>(null);
+
+    const handleImport = (data: AvailabilityExportV1) => {
+        setBanner(null);
+
+        // Restore settings bits (optional but convenient)
+        updateSettings((curr) => ({
+            ...curr,
+            user: { ...curr.user, fullName: data.user.fullName },
+            prefs: { ...curr.prefs, eveningStartMins: data.prefs.eveningStartMins },
+        }));
+
+        // Replace strategy:
+        if (data.month === "all") {
+            clearAll();
+            setOverridesBulk(data.overridesByDay as Record<string, DayAvailabilityOverride>);
+            setBanner(`Imported full backup (${Object.keys(data.overridesByDay).length} overrides).`);
+            return;
+        }
+
+        // Month-only: clear that month first, then import only those keys
+        clearMonth(data.month);
+
+        const filtered: Record<string, DayAvailabilityOverride> = {};
+        for (const [k, v] of Object.entries(data.overridesByDay ?? {})) {
+            if (k.startsWith(data.month + "-")) filtered[k] = v as DayAvailabilityOverride;
+        }
+        setOverridesBulk(filtered);
+        setMonth(new Date(Number(data.month.slice(0, 4)), Number(data.month.slice(5, 7)) - 1, 1));
+        setBanner(`Imported ${data.month} (${Object.keys(filtered).length} overrides).`);
+    };
 
     const selectedKey = selectedDate ? ymd(selectedDate) : null;
 
@@ -46,14 +90,27 @@ export function EntryPage() {
                     </p>
                 </div>
 
-                <ExportAvailabilityButton
-                    month={month}
-                    userId={userId}
-                    fullName={fullName}
-                    eveningStartMins={eveningStartMins}
-                    overrides={overrides}
-                />
+                <div className="flex flex-wrap gap-2">
+                    <ImportAvailabilityButton
+                        onImport={handleImport}
+                        onError={(m) => setBanner(m)}
+                    />
+
+                    <ExportAvailabilityButton
+                        month={month}
+                        userId={settings.user.id}
+                        fullName={settings.user.fullName}
+                        eveningStartMins={eveningStartMins}
+                        overrides={overrides}
+                    />
+                </div>
             </div>
+
+            {banner ? (
+                <div className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-3 text-sm text-zinc-300">
+                    {banner}
+                </div>
+            ) : null}
 
             <MonthPicker
                 month={month}
@@ -67,6 +124,34 @@ export function EntryPage() {
                     setSelectedDate(t);
                 }}
             />
+
+            {/* Add clear buttons wherever you render MonthPicker actions */}
+            <div className="flex flex-wrap gap-2">
+                <button
+                    type="button"
+                    className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 hover:bg-zinc-900"
+                    onClick={() => {
+                        const mk = monthKey(month);
+                        if (!confirm(`Clear availability for ${mk}?`)) return;
+                        clearMonth(mk);
+                        setBanner(`Cleared ${mk}.`);
+                    }}
+                >
+                    Clear month
+                </button>
+
+                <button
+                    type="button"
+                    className="cursor-pointer rounded-xl border border-red-900/40 bg-red-950/30 px-3 py-2 text-sm text-red-100 hover:bg-red-950/40"
+                    onClick={() => {
+                        if (!confirm("Clear ALL availability? This cannot be undone.")) return;
+                        clearAll();
+                        setBanner("Cleared all availability.");
+                    }}
+                >
+                    Clear all
+                </button>
+            </div>
 
             <MonthGrid
                 month={month}

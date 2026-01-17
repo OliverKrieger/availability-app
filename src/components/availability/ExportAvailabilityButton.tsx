@@ -8,6 +8,7 @@ type Props = {
     fullName: string;
     eveningStartMins: number;
     overrides: Record<string, DayAvailabilityOverride>; // all overrides
+    exportAll?: boolean;
 };
 
 function pad2(n: number) {

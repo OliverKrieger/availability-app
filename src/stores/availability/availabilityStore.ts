@@ -11,6 +11,7 @@ type AvailabilityState = {
     setOverride: (dayKey: string, next: DayAvailabilityOverride) => void;
     setOverridesBulk: (updates: Record<string, DayAvailabilityOverride>) => void;
     clearOverride: (dayKey: string) => void;
+    clearMonth: (monthKey: string) => void;
     clearAll: () => void;
 };
 
@@ -45,6 +46,15 @@ export const useAvailabilityStore = create<AvailabilityState>()(
                 set((state) => {
                     const copy = { ...state.overrides };
                     delete copy[dayKey];
+                    return { overrides: copy };
+                }),
+
+            clearMonth: (monthKey) =>
+                set((state) => {
+                    const copy = { ...state.overrides };
+                    for (const k of Object.keys(copy)) {
+                        if (k.startsWith(monthKey + "-")) delete copy[k];
+                    }
                     return { overrides: copy };
                 }),
 
