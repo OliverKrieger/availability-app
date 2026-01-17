@@ -6,10 +6,13 @@ import { DayAvailabilityOverride, DayEditorModal } from "../components/availabil
 import { minsToHHmm } from "../utility/lib/time";
 import { useLocalSettings } from "../components/core/LocalSettingsProvider";
 import { useAvailabilityStore } from "../stores/availability/availabilityStore";
+import { ExportAvailabilityButton } from "../components/availability/ExportAvailabilityButton";
 
 export function EntryPage() {
     const { settings } = useLocalSettings();
     const eveningStartMins = settings.prefs.eveningStartMins;
+    const userId = settings.user.id;
+    const fullName = settings.user.fullName;
 
     const [month, setMonth] = useState(() => {
         const t = new Date();
@@ -32,12 +35,22 @@ export function EntryPage() {
 
     return (
         <div className="space-y-4">
-            <div>
-                <h1 className="text-xl font-semibold tracking-tight">My Availability</h1>
-                <p className="mt-1 text-sm text-zinc-400">
-                    Default is busy. Click a day to mark: all day, evening (after{" "}
-                    {minsToHHmm(eveningStartMins)}), or custom ranges.
-                </p>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                    <h1 className="text-xl font-semibold tracking-tight">My Availability</h1>
+                    <p className="mt-1 text-sm text-zinc-400">
+                        Default is busy. Click a day to mark: all day, evening (after{" "}
+                        {minsToHHmm(eveningStartMins)}), or custom ranges.
+                    </p>
+                </div>
+
+                <ExportAvailabilityButton
+                    month={month}
+                    userId={userId}
+                    fullName={fullName}
+                    eveningStartMins={eveningStartMins}
+                    overrides={overrides}
+                />
             </div>
 
             <MonthPicker
