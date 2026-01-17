@@ -2,14 +2,15 @@ import { useMemo, useState } from "react";
 import { MonthPicker } from "../components/calendar/MonthPicker";
 import { MonthGrid } from "../components/calendar/MonthGrid";
 import { ymd } from "../utility/lib/date";
-import { DEFAULT_SETTINGS } from "../features/settings/model/types";
 import { DayAvailabilityOverride, DayEditorModal } from "../components/availability/DayEditorModal";
 import { minsToHHmm } from "../utility/lib/time";
+import { useLocalSettings } from "../components/core/LocalSettingsProvider";
 
 type OverridesByDay = Record<string, DayAvailabilityOverride>;
 
 export function EntryPage() {
-    const [settings] = useState(() => DEFAULT_SETTINGS);
+    const { settings } = useLocalSettings();
+    const eveningStartMins = settings.prefs.eveningStartMins;
 
     const [month, setMonth] = useState(() => {
         const t = new Date();
@@ -33,7 +34,8 @@ export function EntryPage() {
             <div>
                 <h1 className="text-xl font-semibold tracking-tight">My Availability</h1>
                 <p className="mt-1 text-sm text-zinc-400">
-                    Default is busy. Click a day to mark: all day, evening (after {minsToHHmm(settings.eveningStartMins)}), or custom ranges.
+                    Default is busy. Click a day to mark: all day, evening (after{" "}
+                    {minsToHHmm(eveningStartMins)}), or custom ranges.
                 </p>
             </div>
 
@@ -71,7 +73,7 @@ export function EntryPage() {
                     const ov = overrides[k];
                     if (!ov || ov.kind === "none") return undefined;
                     if (ov.kind === "allDayFree") return "Free";
-                    if (ov.kind === "eveningFree") return `Free after ${minsToHHmm(settings.eveningStartMins)}`;
+                    if (ov.kind === "eveningFree") return `Free after ${minsToHHmm(eveningStartMins)}`;
                     if (ov.kind === "ranges") return "Custom";
                     return undefined;
                 }}
@@ -81,7 +83,7 @@ export function EntryPage() {
                 <DayEditorModal
                     isOpen={isEditorOpen}
                     date={selectedDate}
-                    eveningStartMins={settings.eveningStartMins}
+                    eveningStartMins={eveningStartMins}
                     value={selectedOverride}
                     onClose={() => setIsEditorOpen(false)}
                     onSave={(next) => {
