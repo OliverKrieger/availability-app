@@ -45,7 +45,7 @@ export function AggregateMonthGrid({
                             type="button"
                             onClick={() => onSelectDate?.(d)}
                             className={[
-                                "relative flex h-24 w-full flex-col rounded-xl border p-2 text-left transition",
+                                "cursor-pointer relative flex h-24 w-full flex-col rounded-xl border p-2 text-left transition",
                                 "focus:outline-none focus:ring-2 focus:ring-zinc-600",
                                 inMonth ? "" : "text-zinc-600",
                                 tintClass(tint),

@@ -26,7 +26,7 @@ export function PeopleList({ items, includedUserIds, onToggleIncluded, onRemove 
                                     type="checkbox"
                                     checked={included}
                                     onChange={() => onToggleIncluded(x.user.id)}
-                                    className="h-4 w-4 accent-zinc-200"
+                                    className="cursor-pointer h-4 w-4 accent-zinc-200"
                                 />
                                 <div>
                                     <div className="text-sm text-zinc-200">{x.user.fullName}</div>
@@ -42,7 +42,7 @@ export function PeopleList({ items, includedUserIds, onToggleIncluded, onRemove 
                             <button
                                 type="button"
                                 onClick={() => onRemove(x.user.id)}
-                                className="rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-900"
+                                className="cursor-pointer rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-900"
                             >
                                 Remove
                             </button>
