@@ -80,7 +80,7 @@ export function DayEditorModal({
                 <button
                     type="button"
                     onClick={onClose}
-                    className="cursor-pointerrounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
+                    className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-sm hover:bg-zinc-900"
                 >
                     Close
                 </button>
