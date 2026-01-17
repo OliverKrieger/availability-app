@@ -59,7 +59,7 @@ export function AppShell() {
                 </aside>
 
                 {/* Main */}
-                <main className="flex-1 px-6 py-6">
+                <main className="flex-1 px-6 py-6 bg-zinc-950">
                     <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 shadow-sm">
                         <AlertStack />
                         <Outlet />
