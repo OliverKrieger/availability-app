@@ -3,8 +3,12 @@ import type { AvailabilityExportV1 } from "../features/export/model/types";
 import { ImportPanel } from "../components/aggregation/ImportPanel";
 import { PeopleList } from "../components/aggregation/PeopleList";
 import { AggregateMonthGrid } from "../components/aggregation/AggregateMonthGrid";
-import { DayTimeline } from "../components/aggregation/DayTimeline";
-import { aggregateMonth, computeDayBuckets, dayKey, monthKeyFromDate } from "../features/services/aggregate";
+import { aggregateMonth, dayKey, monthKeyFromDate } from "../features/services/aggregate";
+import { HorizontalDayTimeline } from "../components/aggregation/HorizontalDayTimeline";
+import { overrideToFreeIntervals } from "../features/aggregate/lib/freeIntervals";
+import { intersectAll } from "../features/aggregate/lib/intervals";
+import { Interval } from "../features/aggregate/lib/intervals";
+import { minsToHHmm } from "../utility/lib/time";
 
 export function AggregatePage() {
     const [imports, setImports] = useState<AvailabilityExportV1[]>([]);
@@ -42,10 +46,46 @@ export function AggregatePage() {
 
     const selectedDayKey = selectedDate ? dayKey(selectedDate) : null;
 
-    const buckets = useMemo(() => {
+    const rows = useMemo(() => {
         if (!selectedDayKey) return [];
-        return computeDayBuckets(activeImports, selectedDayKey, eveningsOnly, 30);
+
+        return activeImports.map((x) => {
+            const ov = x.overridesByDay[selectedDayKey];
+            const intervals = overrideToFreeIntervals(ov, x.prefs.eveningStartMins);
+
+            // Optional: eveningsOnly filter at display-time as well
+            const filtered = eveningsOnly
+                ? intervals
+                    .map((iv) => ({
+                        start: Math.max(iv.start, x.prefs.eveningStartMins),
+                        end: iv.end,
+                    }))
+                    .filter((iv) => iv.end > iv.start)
+                : intervals;
+
+            return {
+                id: x.user.id,
+                name: x.user.fullName,
+                intervals: filtered,
+            };
+        });
     }, [activeImports, selectedDayKey, eveningsOnly]);
+
+    const everyoneOverlap = useMemo(() => {
+        if (rows.length === 0) return [] as Interval[];
+        return intersectAll(rows.map((r) => r.intervals));
+    }, [rows]);
+
+    const overlapSummary = useMemo(() => {
+        if (!everyoneOverlap.length) return null;
+        // longest interval as a quick “best window”
+        let best = everyoneOverlap[0];
+        for (const iv of everyoneOverlap) {
+            if (iv.end - iv.start > best.end - best.start) best = iv;
+        }
+        return best;
+    }, [everyoneOverlap]);
+
 
     const onImported = (items: AvailabilityExportV1[]) => {
         setError(null);
@@ -154,16 +194,44 @@ export function AggregatePage() {
                 />
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-2">
-                <div className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-4 text-sm text-zinc-400">
-                    <div className="text-sm font-medium text-zinc-200">Selected day</div>
-                    <div className="mt-2">
-                        {selectedDate ? selectedDate.toDateString() : "Click a day in the heatmap."}
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-3">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                        <div className="text-sm font-medium text-zinc-200">Selected day</div>
+                        <div className="mt-1 text-sm text-zinc-400">
+                            {selectedDate ? selectedDate.toDateString() : "Click a day in the heatmap."}
+                        </div>
                     </div>
+
+                    {selectedDate ? (
+                        <div className="text-sm text-zinc-300">
+                            {overlapSummary ? (
+                                <div className="rounded-xl border border-green-900/40 bg-green-950/25 px-3 py-2">
+                                    <div className="text-xs text-green-100/90">Best overlap</div>
+                                    <div className="font-medium text-green-50">
+                                        {minsToHHmm(overlapSummary.start)} – {minsToHHmm(overlapSummary.end)}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2 text-xs text-zinc-400">
+                                    No time where everyone overlaps.
+                                </div>
+                            )}
+                        </div>
+                    ) : null}
                 </div>
 
-                <DayTimeline buckets={buckets} totalPeople={activeImports.length} />
+                {selectedDate ? (
+                    rows.length > 0 ? (
+                        <HorizontalDayTimeline rows={rows} />
+                    ) : (
+                        <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-sm text-zinc-400">
+                            No included people to display.
+                        </div>
+                    )
+                ) : null}
             </div>
+
         </div>
     );
 }
