@@ -71,10 +71,7 @@ export function EntryPage() {
 
     const selectedKey = selectedDate ? ymd(selectedDate) : null;
 
-    const selectedOverride: DayAvailabilityOverride = useMemo(() => {
-        if (!selectedKey) return { kind: "none" };
-        return getOverride(selectedKey);
-    }, [getOverride, selectedKey]);
+    const selectedOverride: DayAvailabilityOverride = selectedKey ? getOverride(selectedKey) : { kind: "none" };
 
     return (
         <div className="space-y-4">

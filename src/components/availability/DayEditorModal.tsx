@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { minsToHHmm } from "../../utility/lib/time";
 import { TimeRange, TimeRangeEditor } from "./TimeRangeEditor";
 
@@ -54,12 +54,10 @@ export function DayEditorModal({
     const weekday = date.getDay();
     const weekdayLabel = date.toLocaleDateString(undefined, { weekday: "long" });
 
-    // reset draft when opening/changing date/value
-    useMemo(() => {
-        if (isOpen) setDraft(value);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isOpen, date.getTime()]);
-
+    useEffect(() => {
+        if (!isOpen) return;
+        setDraft(value);
+    }, [isOpen, value, date.getTime()]);
     const eveningLabel = `Evening (${minsToHHmm(eveningStartMins)}–24:00)`;
 
     const setKind = (kind: DayAvailabilityOverride["kind"]) => {
