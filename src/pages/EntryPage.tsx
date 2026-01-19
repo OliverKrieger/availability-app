@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { MonthPicker } from "../components/calendar/MonthPicker";
 import { MonthGrid } from "../components/calendar/MonthGrid";
 import { ymd, daysInMonthGrid } from "../utility/lib/date";
